@@ -1,24 +1,13 @@
 import requests
 import sys
 import os
-from azure.kusto.data.request import KustoConnectionStringBuilder
-from azure.kusto.ingest import KustoIngestClient, IngestionProperties, DataFormat
 
 from azure.storage.common import CloudStorageAccount
 
 account_name="jsoyteststorageaccount"
 account_key="xgpW5An8/ZdM1pld1Jkm2hMHj2F/7UWzNmZ4lMLgZY449quN8DDR98hsYRDrR8PWIjE/NaE1OBcK8JIkTGvwpQ=="
 container_name="jsoy-container-example"
-# kusto_url=<kusto_url>
-# app_id=<app_id>
-# app_key=<app_key>
-# auth_id=<authority_id>
 
-# client = KustoIngestClient(
-#     KustoConnectionStringBuilder.with_aad_application_key_authentication(
-#        kusto_url,app_id,app_key,auth_id
-#     )
-# )
 
 mapping = [
     {"column": "Id", "path": "$.id"},
@@ -66,7 +55,7 @@ def upload_to_azure_storage(path):
     storage_client = CloudStorageAccount(account_name=account_name, account_key=account_key)
     blob_service = storage_client.create_block_blob_service()
 
-    if len(list(blob_service.list_blobs(container_name, path))) > 0:
+    if len(list(blob_service.list_blobs(container_name, path))) > 0 and len(list(blob_service.list_blobs(container_name, path + ".gz"))) == 0:
         print("{} exists on azure storage, skipping...".format(path))
     else:
         blob_service.create_blob_from_path(container_name=container_name, blob_name=path, file_path=path)
@@ -97,4 +86,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    for name in os.listdir():
+        if name.endswith(".json"):
+            upload_to_azure_storage(name)
