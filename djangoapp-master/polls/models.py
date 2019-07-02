@@ -14,7 +14,7 @@ class Githubevent(models.Model):
     repo_owner = models.CharField(max_length=50, blank=True, null=True)  
     time = models.DateTimeField(blank=True, null=True)
 
-    objects = CopyManager()
+    # objects = CopyManager()
 
     class Meta:
         managed = False

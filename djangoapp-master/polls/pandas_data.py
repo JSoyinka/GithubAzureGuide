@@ -6,7 +6,7 @@ from datetime import timedelta
 from .models import Githubevent
 
 def filter_in_admin():
-    issue_df = pandas.read_csv("data.csv")
+    issue_df = pandas.DataFrame(list(Githubevent.objects.all().values()))
     count_df = issue_df.groupby('issue_id').size().sort_values(ascending=False)
     count_df = count_df[count_df.iloc[:] > 1]
 
@@ -19,28 +19,28 @@ def filter_in_admin():
         if temp_df['action'].iloc[0] == 'closed' and len(temp_df) % 2 == 0:  
             temp_list = temp_df['time'].tolist()
             del temp_list[0]
-            for i, time in enumerate(temp_list):
-                temp_list[i] = datetime.strptime(time, '%Y-%m-%d %X')
+            # for i, time in enumerate(temp_list):
+            #     temp_list[i] = datetime.strptime(time, '%Y-%m-%d %X')
             temp_list.append(datetime.combine(temp_list[-1], datetime.min.time()) + timedelta(days=1))
         elif temp_df['action'].iloc[0] == 'closed' and len(temp_df) % 2 == 1:  
             temp_list = temp_df['time'].tolist()
             del temp_list[0]
-            for i, time in enumerate(temp_list):
-                temp_list[i] = datetime.strptime(time, '%Y-%m-%d %X')
+            # for i, time in enumerate(temp_list):
+            #     temp_list[i] = datetime.strptime(time, '%Y-%m-%d %X')
             if len(temp_list) == 1:
                 temp_list.append(datetime.combine(temp_list[-1], datetime.min.time()) + timedelta(days=1))
         elif len(temp_df) % 2 == 0:  
             temp_list = temp_df['time'].tolist()
-            for i, time in enumerate(temp_list):
-                temp_list[i] = datetime.strptime(time, '%Y-%m-%d %X')
+            # for i, time in enumerate(temp_list):
+            #     temp_list[i] = datetime.strptime(time, '%Y-%m-%d %X')
         else:  
             temp_list = temp_df['time'].tolist()
-            for i, time in enumerate(temp_list):
-                temp_list[i] = datetime.strptime(time, '%Y-%m-%d %X')
+            # for i, time in enumerate(temp_list):
+            #     temp_list[i] = datetime.strptime(time, '%Y-%m-%d %X')
             temp_list.append(datetime.combine(temp_list[-1], datetime.min.time()) + timedelta(days=1))    
         temp_time = 0
         for i,k in zip(temp_list[0::2], temp_list[1::2]):
             temp_time += (k-i).total_seconds()
         total_times.append(temp_time)
             
-    return(float(sum(total_times)) / len(total_times))
+    return(float(sum(total_times)) / len(total_times) / 60)

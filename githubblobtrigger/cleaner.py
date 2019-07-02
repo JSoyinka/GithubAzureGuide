@@ -77,3 +77,6 @@ main()
 print("start time: " + start_time)
 print("end time: " + time.ctime())
 # parse_issue_events("2016-01-01-19.json")
+
+def satiisfies_conditions():
+    return(false)
