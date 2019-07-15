@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "venv\\Scripts\\python.exe",
+    "python.pythonPath": "env\\Scripts\\python.exe",
     "azureFunctions.deploySubpath": "GithubAzureGuide.zip",
     "azureFunctions.pythonVenv": "env",
     "azureFunctions.projectLanguage": "Python",
