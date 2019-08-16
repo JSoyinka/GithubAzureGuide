@@ -37,6 +37,6 @@ for id in list(count_df.index):
     temp_time = 0
     for i,k in zip(temp_list[0::2], temp_list[1::2]):
         temp_time += (k-i).total_seconds()
-    total_times.append(temp_time)
+    total_times.append(tempcd _time)
         
 print(float(sum(total_times)) / len(total_times))
